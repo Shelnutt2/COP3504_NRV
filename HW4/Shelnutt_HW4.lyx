@@ -1,0 +1,374 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+Seth Shelnutt
+\end_layout
+
+\begin_layout Standard
+42941969
+\end_layout
+
+\begin_layout Standard
+COP3504
+\end_layout
+
+\begin_layout Part*
+Part 1
+\end_layout
+
+\begin_layout Paragraph
+Given the attatched implementations of NumericalRandomVariable with respect
+ to a HashMap and TreeMap implementation, the methods of observe(), forget()
+ and general sorted iteration.
+ The known time complexity of TreeMap's get() and put() methods are both
+ O(log(N)).
+ While iteration over a TreeMap is O(N).
+ With HashMap the get() and put() are of O(1), and we see again that the
+ iteration of the entire map is O(N).
+\end_layout
+
+\begin_layout Paragraph
+First looking at the observe() method, this implementation calls the put()
+ method once and the get() method up to twice.
+ So for the TreeMap the complexity would be O(log(N)) + O(log(N)) +O(log(N)),
+ which yield O(log(N)+log(N)+log(N)), or simply of order O(log(N)).
+ For HashMap O(1) + O(1) + O(1), yields O(3), which is simply of order O(1).
+ Second the forget() method calls the get() method once and the put() or
+ remove() method up to once.
+ There is also the possibility of iterating over the entire map, if the
+ value removed is the minimum or maximum value.
+ So for the TreeMap the complexity would be O(log(N)) + O(log(N)) + O(N)),
+ which yield O(log(N)+log(N)+N), or simply of order O(N).
+ For HashMap O(1) + O(1) + O(N), yields O(2+N), which is simply of order
+ O(N).
+ 
+\end_layout
+
+\begin_layout Paragraph
+When it comes to a sorted-order iteration, the TreeMap by it's nature is
+ already sorted, so the complexity is simply O(N), a HashMap, however is
+ not sorted and cannot be sorted.
+ Thus to iterate over it's values in a sorted order, one would need to convert
+ it to a TreeMap, in which each value would have to be read and put, that
+ is O(1) to get and O(log(N)) to put into the TreeMap.
+ Then O(N) for iterating the new TreeMap.
+ Thus O(1) + O(log(N)) + O(N), or simply of order O(N).
+\end_layout
+
+\begin_layout Paragraph
+For Algorithm A, this process must first iterate over a list O(N), and then
+ add each value to the HashMap or TreeMap.
+ By definition of a HashMap and TreeMap only one unique key will be stored.
+ To add a value to the HashMap is O(1) and the TreeMap O(log(N)).
+ To display the resulting map, and iterate over it in a sorted order is
+ of order O(N) for both HashMap and TreeMap.
+ Thus the algorithm is simply O(N) for the HashMap implementation and O(N)
+ for the TreeMap implementation.
+\end_layout
+
+\begin_layout Paragraph
+For Algorithm B, this process must first iterate over a list O(N), and then
+ add each value to the HashMap or TreeMap of NRV.
+ By definition of a HashMap and TreeMap only one unique key will be stored.
+ To add a value to the HashMap is O(1) and the TreeMap O(log(N)).
+ To display the resulting map, and iterate over it in a sorted order is
+ of order O(N) for both HashMap and TreeMap.
+ This will happen for each item in the list, thus, it's N*O(N), or 
+\begin_inset Formula $O(N^{2})$
+\end_inset
+
+ Thus the algorithm is simply 
+\begin_inset Formula $O(N^{2})$
+\end_inset
+
+ for the HashMap implementation and 
+\begin_inset Formula $O(N^{2})$
+\end_inset
+
+ for the TreeMap implementation.
+\end_layout
+
+\begin_layout Paragraph
+For both algorithms if only one implementation of NumericalRandomVariable
+ could be used, it seem the HashMap implementation is going to be a better.
+ For each get and put call the time complexity is simply O(1) compared to
+ O(log(N)) for the TreeMap.
+ While overall the complexity of each implementation is of the same order,
+ the HashMap for most algorithms will be faster.
+\end_layout
+
+\begin_layout Part*
+Part 2
+\end_layout
+
+\begin_layout Paragraph
+1) 
+\begin_inset Formula $T(N)=3T(\frac{N}{3})+O(N)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $a=3,b=3,f(n)=N$
+\end_inset
+
+ where 
+\begin_inset Formula $f(n)=\Theta(n^{c}),c=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $log_{3}3=1$
+\end_inset
+
+ and 
+\begin_inset Formula $c=log_{b}a$
+\end_inset
+
+ thus Case 2 of Master's therom holds, and the recurrence relation T(N)
+ was in 
+\begin_inset Formula $\Theta(N^{log_{b}a}log^{k+1}n)=\Theta(Nlog(N))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+2) 
+\begin_inset Formula $T(N)=3T(\frac{2N}{3})+O(1)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $a=3,b=\frac{3}{2},f(n)=1$
+\end_inset
+
+ where 
+\begin_inset Formula $f(n)=\Theta(n^{c}),c=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $log_{\frac{3}{2}}3=\frac{log3}{log(\frac{3}{2})}\approx2.71$
+\end_inset
+
+ and 
+\begin_inset Formula $c<log_{b}a$
+\end_inset
+
+ thus Case 1 of Master's therom holds, and the recurrence relation T(N)
+ was in 
+\begin_inset Formula $\Theta(N^{log_{b}a})=\Theta(N^{log_{\frac{3}{2}}3})\approx\Theta(N^{2.71})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+3) 
+\begin_inset Formula $T(N)=4T(\frac{N}{2})+O(N)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $a=4,b=2,f(n)=N$
+\end_inset
+
+ where 
+\begin_inset Formula $f(n)=\Theta(n^{c}),c=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $log_{2}4=2$
+\end_inset
+
+ and 
+\begin_inset Formula $c<log_{b}a$
+\end_inset
+
+ thus Case 1 of Master's therom holds, and the recurrence relation T(N)
+ was in 
+\begin_inset Formula $\Theta(N^{log_{b}a})=\Theta(N^{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+4) 
+\begin_inset Formula $T(N)=2T(\frac{N}{2})+O(Nlog(N))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $a=2,b=2,f(n)=NLog(N)$
+\end_inset
+
+ where 
+\begin_inset Formula $f(n)=\Theta(n^{c}log(n)),c=1,k=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $log_{2}2=1$
+\end_inset
+
+ and 
+\begin_inset Formula $c=log_{b}a$
+\end_inset
+
+ thus Case 2 of Master's therom holds, and the recurrence relation T(N)
+ was in 
+\begin_inset Formula $\Theta(N^{log_{b}a}log^{k+1}n)=\Theta(Nlog^{2}(N))$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+5) 
+\begin_inset Formula $T(N)=T(\frac{N}{2})+O(N^{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $a=1,b=2,f(n)=N^{2}$
+\end_inset
+
+ where 
+\begin_inset Formula $f(n)=\Theta(n^{c}),c=2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $log_{2}1=0$
+\end_inset
+
+ and 
+\begin_inset Formula $c>log_{b}a$
+\end_inset
+
+ thus Case 3 of Master's therom holds, and the recurrence relation T(N)
+ was in 
+\begin_inset Formula $\Theta(N^{c})=\Theta(N^{2})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph
+6) 
+\begin_inset Formula $T(N)=8T(\frac{N}{2})+O(N^{4})$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $a=8,b=2,f(n)=N^{4}$
+\end_inset
+
+ where 
+\begin_inset Formula $f(n)=\Theta(n^{c}),c=4$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+\begin_inset Formula $log_{2}8=3$
+\end_inset
+
+ and 
+\begin_inset Formula $c>log_{b}a$
+\end_inset
+
+ thus Case 3 of Master's therom holds, and the recurrence relation T(N)
+ was in 
+\begin_inset Formula $\Theta(N^{c})=\Theta(N^{4})$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
